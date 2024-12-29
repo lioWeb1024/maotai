@@ -1,10 +1,11 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/Home/index.vue'
 import { useUser } from '@/stores/useUser'
 import { storeToRefs } from 'pinia'
 
+const Mode = import.meta.env.VITE_ROUTER_MODE === 'hash' ? createWebHashHistory : createWebHistory
 const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL),
+    history: Mode(import.meta.env.BASE_URL),
     routes: [
         {
             path: '/',
