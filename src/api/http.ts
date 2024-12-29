@@ -1,4 +1,8 @@
-import axios, { AxiosResponse } from 'axios'
+import { useUser } from '@/stores/useUser'
+import Local from '@/utils/Local'
+import { message } from 'ant-design-vue'
+import axios from 'axios'
+import type { AxiosResponse } from 'axios'
 
 let service = axios.create({
     baseURL: '/',
@@ -10,6 +14,7 @@ service.interceptors.request.use(
         config.data = JSON.stringify(config.data)
         ;(config as any).headers = {
             'Content-Type': 'application/json',
+            Token: useUser().Token,
         }
         return config
     },
@@ -21,7 +26,14 @@ service.interceptors.response.use((response: AxiosResponse) => {
     switch (response.data.code) {
         case 10000:
             break
+        case 202:
+            message.warning(response.data.msg, 1.5, () => {
+                Local.clear()
+                window.location.replace('/login')
+            })
+            break
         default:
+            message.error(response.data.msg)
             break
     }
     return response.data

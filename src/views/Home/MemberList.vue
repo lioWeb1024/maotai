@@ -1,4 +1,4 @@
-<!-- 会员管理 -->
+<!-- 会员列表 -->
 <template>
     <Card>
         <div class="flex items-center flex-wrap">
